@@ -1,4 +1,5 @@
-﻿using JwtTokenApp.Api.Models;
+﻿using JwtTokenApp.Api.Autenticacao;
+using JwtTokenApp.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JwtTokenApp.Api.Controllers;
@@ -6,7 +7,7 @@ namespace JwtTokenApp.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 
-public class MissaoController : ControllerBase
+public class MissaoController(ITokenManager tokenManager) : ControllerBase
 {
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
@@ -19,8 +20,12 @@ public class MissaoController : ControllerBase
         if (heroi is null)
             return NotFound();
 
-        return null;
+        var token = tokenManager.GenerateToken(heroi);
+
+        return Ok(new LoginResponse(token));
     }
 }
 
 public record LoginRequest(string Heroi);
+
+public record LoginResponse(string Token);
