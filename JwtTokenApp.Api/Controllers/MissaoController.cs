@@ -22,8 +22,30 @@ public class MissaoController(ITokenManager tokenManager) : ControllerBase
             return NotFound();
 
         var token = tokenManager.GenerateToken(heroi);
+        var refreshToken = tokenManager.RefreshToken(heroi);
 
-        return Ok(new LoginResponse(token));
+        return Ok(new LoginResponse(token, refreshToken));
+    }
+
+    public async Task<IActionResult> RefreshToken([FromBody] FereshTokenRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.token))
+            return BadRequest();
+
+        var validateToken = await tokenManager.ValidateToken(request.token);
+
+        if (!validateToken.isValid)
+            return Unauthorized();
+
+        var heroi = Db.Herois.Where(x => x.Nome == validateToken.nomeHeroi).FirstOrDefault();
+
+        if (heroi is null)
+            return Unauthorized();
+
+        var token = tokenManager.GenerateToken(heroi!);
+        var refreshToken = tokenManager.RefreshToken(heroi!);
+
+        return Ok(new LoginResponse(token, refreshToken));
     }
 
     [HttpGet("ficha-publica-herois")]
@@ -48,8 +70,22 @@ public class MissaoController(ITokenManager tokenManager) : ControllerBase
 
         return Ok(herois);
     }
+
+    [HttpGet("escalacao-missao")]
+    [Authorize(Roles = Db.PODER_DESCRICAO_PODE_VOAR)]
+    public IActionResult ListarHeroisEscalados()
+    {
+        var herois = Db.Herois
+                       .Where(x => x.Poderes
+                       .Any(p => p.Descricao == Db.PODER_DESCRICAO_PODE_VOAR)).ToArray();
+
+        if (herois == null || herois.Count() == 0)
+            return NoContent();
+
+        return Ok(herois);
+    }
 }
 
 public record LoginRequest(string Heroi);
-
-public record LoginResponse(string Token);
+public record FereshTokenRequest(string token);
+public record LoginResponse(string Token, string RefreshToken);
