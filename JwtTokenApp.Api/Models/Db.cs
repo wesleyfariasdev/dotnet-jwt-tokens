@@ -1,6 +1,6 @@
 ﻿namespace JwtTokenApp.Api.Models;
 
-internal static class Db
+public static class Db
 {
     public static Heroi[] Herois = ObterHerois();
 
