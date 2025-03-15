@@ -1,5 +1,6 @@
 ﻿using JwtTokenApp.Api.Autenticacao;
 using JwtTokenApp.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JwtTokenApp.Api.Controllers;
@@ -10,7 +11,7 @@ namespace JwtTokenApp.Api.Controllers;
 public class MissaoController(ITokenManager tokenManager) : ControllerBase
 {
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+    public IActionResult Login([FromBody] LoginRequest loginRequest)
     {
         if (string.IsNullOrWhiteSpace(loginRequest.Heroi))
             return NotFound();
@@ -23,6 +24,29 @@ public class MissaoController(ITokenManager tokenManager) : ControllerBase
         var token = tokenManager.GenerateToken(heroi);
 
         return Ok(new LoginResponse(token));
+    }
+
+    [HttpGet("ficha-publica-herois")]
+    public IActionResult ListarHeroisPublico()
+    {
+        var herois = Db.Herois.Select(x => x.Nome).ToList();
+
+        if (herois is null)
+            return NoContent();
+
+        return Ok(herois);
+    }
+
+    [HttpGet("ficha-privada-herois")]
+    [Authorize]
+    public IActionResult ListarFichaHeroisPrivada()
+    {
+        var herois = Db.Herois.Select(x => x.Nome).ToList();
+
+        if (herois is null)
+            return NoContent();
+
+        return Ok(herois);
     }
 }
 
