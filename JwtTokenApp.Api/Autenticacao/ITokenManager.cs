@@ -6,4 +6,5 @@ public interface ITokenManager
 {
     string GenerateToken(Heroi heroi);
     string RefreshToken(Heroi heroi);
+    Task<(bool isValid, string? nomeHeroi)> ValidateToken(string token);
 }

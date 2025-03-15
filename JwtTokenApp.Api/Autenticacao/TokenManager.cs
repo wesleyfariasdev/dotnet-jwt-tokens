@@ -58,4 +58,19 @@ public class TokenManager(IConfiguration configuration) : ITokenManager
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public async Task<(bool isValid, string? nomeHeroi)> ValidateToken(string token)
+    {
+        if (string.IsNullOrWhiteSpace(token)) return (false, null);
+
+        var validTokenResult = await new JwtSecurityTokenHandler().ValidateTokenAsync(token,
+                                                                                      TokenHelper.GetTokenValidationParameters(configuration));
+        if (!validTokenResult.IsValid)
+            return (false, null);
+
+        var userName = validTokenResult.Claims
+                                       .FirstOrDefault(x => x.Key == ClaimTypes.Name).Value;
+
+        return (true, userName.ToString());
+    }
 }
