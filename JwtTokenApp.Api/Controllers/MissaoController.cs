@@ -41,7 +41,7 @@ public class MissaoController(ITokenManager tokenManager) : ControllerBase
     [Authorize]
     public IActionResult ListarFichaHeroisPrivada()
     {
-        var herois = Db.Herois.Select(x => x.Nome).ToList();
+        var herois = Db.Herois.ToList();
 
         if (herois is null)
             return NoContent();
