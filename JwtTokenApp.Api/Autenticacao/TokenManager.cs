@@ -69,7 +69,7 @@ public class TokenManager(IConfiguration configuration) : ITokenManager
             return (false, null);
 
         var userName = validTokenResult.Claims
-                                       .FirstOrDefault(x => x.Key == ClaimTypes.Name).Value;
+                                       .FirstOrDefault(x => x.Key == ClaimTypes.NameIdentifier).Value;
 
         return (true, userName.ToString());
     }
