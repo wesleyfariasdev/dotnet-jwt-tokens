@@ -3,7 +3,7 @@
 Aplicação exemplo em **.NET 8** demonstrando a geração de **JSON Web Tokens (JWT)** utilizando o algoritmo **HS256** com chave simétrica.  
 Este projeto é uma API simples para autenticação de heróis fictícios, com geração de tokens que incluem claims personalizadas.
 
-## 🔑 Principais Tecnologias
+## Principais Tecnologias
 
 - ASP.NET Core 8 (API)
 - JWT (JSON Web Token)
@@ -14,14 +14,14 @@ Este projeto é uma API simples para autenticação de heróis fictícios, com g
 
 ---
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
-### ✅ Pré-requisitos
+### Pré-requisitos
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/) ou [VSCode](https://code.visualstudio.com/)
 
-### ⚙️ Configuração Inicial
+### Configuração Inicial
 
 1. **Clone o repositório:**
 
@@ -49,7 +49,7 @@ dotnet run
 
 ---
 
-## ⚙️ Configuração do \`appsettings.json\`
+##  Configuração do \`appsettings.json\`
 
 Exemplo de configuração para JWT:
 
@@ -63,13 +63,13 @@ Exemplo de configuração para JWT:
 }
 ```
 
-> ⚠️ **Importante:** A \`SecretKey\` precisa ter pelo menos 256 bits (32 bytes) codificados em Base64 para o HS256 funcionar corretamente.
+> **Importante:** A \`SecretKey\` precisa ter pelo menos 256 bits (32 bytes) codificados em Base64 para o HS256 funcionar corretamente.
 
 ---
 
-## ✅ Como Usar
+## Como Usar
 
-### 🎯 Rota de Geração de Token
+### Rota de Geração de Token
 
 - **POST** \`/api/auth\`
 
@@ -89,7 +89,7 @@ Exemplo de configuração para JWT:
 }
 ```
 
-### 🔒 Token contém as Claims:
+### Token contém as Claims:
 
 - \`sub\` (nome do herói)
 - \`jti\` (ID único do token)
@@ -97,7 +97,7 @@ Exemplo de configuração para JWT:
 
 ---
 
-## 💡 Sobre o Projeto
+## Sobre o Projeto
 
 Este projeto tem como objetivo servir de exemplo prático para:
 
@@ -107,14 +107,14 @@ Este projeto tem como objetivo servir de exemplo prático para:
 
 ---
 
-## 🛡️ Segurança
+## Segurança
 
 - Utilize **chaves fortes e secretas** (mínimo de 256 bits).
 - Nunca exponha o \`appsettings.json\` com a chave real em repositórios públicos.
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 JwtTokenApp.Api
@@ -131,9 +131,3 @@ JwtTokenApp.Api
 │
 └── appsettings.json         // Configurações do JWT
 ```
-
----
-
-## 📃 Licença
-
-Este projeto está licenciado sob a licença **MIT**.
